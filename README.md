@@ -58,7 +58,7 @@ You can access the live version of the app [here](https://car-ads-byzt.onrender.
 ### Menu Navigation
 Currently, the menu navigation is not functional. While the menu items for "Plots," "Correlations," and "Contact" are displayed, selecting them does not trigger the intended actions or navigation. This is a feature that will be implemented in the near future. In the meantime, users can still interact with the visualizations and other functionalities directly through the main interface.
 
-### Minimizing & Expandingthe Expanders
+### Minimizing & Expanding the Expanders
 At the moment, there is a bug affecting the minimization and expansion of all expanders. For the minimize function to work, all expanders must first have beeen expanded. Likewise, If all expanders are manually minimized, the 'Expand All' button will not work as expected. This issue is being addressed and will be resolved in a future release.
 
 ## Contributing
