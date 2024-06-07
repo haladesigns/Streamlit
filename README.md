@@ -53,6 +53,12 @@ You can access the live version of the app [here](https://car-ads-byzt.onrender.
     ```
 3. The app will open in your default web browser. You can interact with the visualizations and explore the data on car sales advertisements.
 
+## Known Issues
+
+### Menu Navigation
+Currently, the menu navigation is not functional. While the menu items for "Plots," "Correlations," and "Contact" are displayed, selecting them does not trigger the intended actions or navigation. This is a feature that will be implemented in the near future. In the meantime, users can still interact with the visualizations and other functionalities directly through the main interface.
+
+
 ## Contributing
 If you would like to contribute to this project, please follow these steps:
 1. Fork the repository

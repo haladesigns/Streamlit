@@ -8,9 +8,8 @@ import scipy as sp
 
 
 st.header('Car Sales Advertisements')
-st.write('Introductory text here')
 
-# Load the dataset
+# Load the dataset  
 file_path = './vehicles_us.csv'
 df = pd.read_csv(file_path)
 
@@ -30,11 +29,11 @@ templates = ["plotly", "ggplot2", "seaborn", "simple_white", "none"]
 
 st.sidebar.header("Settings")
 my_template = st.sidebar.radio("Choose a template", templates, key="template")
-text_auto= st.sidebar.checkbox("Enable text")
+text_auto= st.sidebar.checkbox("Enable Histogram text")
 
 #--------------------MENU-----------------
-selected = option_menu(None, ["Histograms", "Scatterplots", "Correlations", ], 
-                       icons=['bar-chart', 'graph-up', 'bar-chart', ], 
+selected = option_menu(None, ["Plots", "Correlations", "Contact", ], 
+                       icons=['bar-chart', 'arrows-collapse', 'mailbox', ], 
                        menu_icon="cast", default_index=0, orientation="horizontal")
 
 #---------------------PLOTS-------------------
@@ -56,7 +55,7 @@ fig_hist_price = px.histogram(df, x='price', nbins=30, color='condition', text_a
 fig_hist_price.update_traces(textposition='outside')
 fig_hist_price.update_layout(title_text='Distribution of Vehicle Prices', title_x=0.35)
 #st.write(fig_hist_price)
-my_histprice_expander = st.expander("Expand Distribution of Vehicle Prices", expanded=True)
+my_histprice_expander = st.expander("Expand Distribution of Vehicle Prices (Histogram)", expanded=True)
 with my_histprice_expander:
     st.write(fig_hist_price)
 
@@ -64,7 +63,7 @@ with my_histprice_expander:
 fig_hist_odometer = px.histogram(df, x='odometer', nbins=30, color='condition', text_auto=text_auto, template=my_template)
 fig_hist_odometer.update_layout(title_text='Distribution of Odometer Readings', title_x=0.35)
 #st.write(fig_hist_odometer)
-my_histodom_expander = st.expander("Expand Distribution of Odometer Readings", expanded=st.session_state.expand_all)
+my_histodom_expander = st.expander("Expand Distribution of Odometer Readings (Histogram)", expanded=st.session_state.expand_all)
 with my_histodom_expander:
     st.write(fig_hist_odometer)
 
@@ -73,7 +72,7 @@ fig_hist_days_listed = px.histogram(df, x='days_listed', nbins=30, title='Distri
                                     text_auto=text_auto, template=my_template,)
 fig_hist_days_listed.update_layout(title_text='Distribution of Days Listed', title_x=0.35)
 #st.write(fig_hist_days_listed)
-my_histdayslisted_expander = st.expander("Expand Days Listed", expanded=st.session_state.expand_all)
+my_histdayslisted_expander = st.expander("Expand Days Listed (Histogram)", expanded=st.session_state.expand_all)
 with my_histdayslisted_expander:
     st.write(fig_hist_days_listed)
 
@@ -81,7 +80,7 @@ with my_histdayslisted_expander:
 fig_hist_condition = px.histogram(df, x='condition', color='condition', text_auto=text_auto, template=my_template, )
 fig_hist_condition.update_layout(title_text='Distribution of Vehicle Conditions', title_x=0.35)
 #st.write(fig_hist_condition)
-my_histcondition_expander = st.expander("Expand Distribution of Vehicle Conditions" if not st.session_state.expand_all else "", expanded=st.session_state.expand_all)
+my_histcondition_expander = st.expander("Expand Distribution of Vehicle Conditions (Histogram)", expanded=st.session_state.expand_all)
 with my_histcondition_expander:
     st.write(fig_hist_condition)
 
@@ -89,7 +88,7 @@ with my_histcondition_expander:
 fig_scatter = px.scatter(df, x='odometer', y='price', title='Price vs. Odometer Reading', opacity=0.5, color='condition', template=my_template,)
 fig_scatter.update_layout(title_text='Price vs. Odometer Reading', title_x=0.35)
 #st.write(fig_scatter)
-my_scatter_price_odom_expander = st.expander("Price vs. Odometer Reading" if not st.session_state.expand_all else "", expanded=st.session_state.expand_all)
+my_scatter_price_odom_expander = st.expander("Price vs. Odometer Reading (Scatter)", expanded=st.session_state.expand_all)
 with my_scatter_price_odom_expander:
     st.write(fig_scatter)
     
@@ -97,7 +96,7 @@ with my_scatter_price_odom_expander:
 fig_scatter_price_cylinders = px.scatter(df, x='cylinders', y='price', title='Price vs. Cylinder Count', opacity=0.5, color='condition')
 fig_scatter_price_cylinders.update_layout(title_text='Price vs. cylinder count', title_x=0.35)
 #st.write(fig_scatter_price_cylinders)
-my_scatter_price_cylinder_expander = st.expander("Price vs. Cylinder Count" if not st.session_state.expand_all else "", expanded=st.session_state.expand_all)
+my_scatter_price_cylinder_expander = st.expander("Price vs. Cylinder Count (Scatter)" , expanded=st.session_state.expand_all)
 with my_scatter_price_cylinder_expander:
     st.write(fig_scatter_price_cylinders)
     
