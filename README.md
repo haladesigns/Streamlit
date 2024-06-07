@@ -17,9 +17,7 @@ You can access the live version of the app [here](https://car-ads-byzt.onrender.
   - `pandas`: For data manipulation and analysis
   - `streamlit`: For creating the interactive web application
   - `streamlit_option_menu`: For creating a customizable menu in the Streamlit app
-  - `altair`: For declarative statistical visualization
   - `plotly.express` and `plotly.graph_objects`: For creating interactive plots and charts
-  - `scipy`: For scientific computing
 
 ## Installation
 
