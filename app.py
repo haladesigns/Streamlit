@@ -1,10 +1,8 @@
 import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
-import altair as alt
 import plotly.express as px
 import plotly.graph_objects as go
-import scipy as sp
 
 
 st.header('Car Sales Advertisements')
