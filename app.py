@@ -27,16 +27,33 @@ templates = ["plotly", "ggplot2", "seaborn", "simple_white", "none"]
 
 st.sidebar.header("Settings")
 my_template = st.sidebar.radio("Choose a template", templates, key="template")
-text_auto= st.sidebar.checkbox("Enable Histogram text")
 
+# Set expand_all state based on button clicks
+col1, col2 = st.sidebar.columns(2)
+with col1: expand_all = st.button("Expand All", key="expandall")
+with col2: minimize = st.button("Minimize All", key="minimizeall")
+
+st.sidebar.markdown("<hr>", unsafe_allow_html=True)
+
+text_auto= st.sidebar.checkbox("Enable Histogram text")
+ 
 #-----------------NAVIGATION MENU-------------
 selected = option_menu(None, ["Plots", "Correlations", "Contact", ], 
                        icons=['bar-chart', 'arrows-collapse', 'mailbox', ], 
                        menu_icon="cast", default_index=0, orientation="horizontal")
 
 #---------------------PLOTS-------------------
-expand_all = st.sidebar.button("Expand All", key="expandall")
-minimize = st.sidebar.button("Minimize")
+
+# Separator
+st.sidebar.markdown("<hr>", unsafe_allow_html=True)
+
+# Dropdown for selecting the color category
+color_category = st.sidebar.selectbox("Select category for scatter plots", [
+    'price','model_year','model','condition','cylinders','fuel','odometer',
+    'transmission','type','paint_color','date_posted','days_listed'], 
+                                      key="color_category")
+
+st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 
 expanders = [
     'expand_price', 'expand_odometer', 'expand_days_listed',
@@ -69,8 +86,8 @@ def create_histogram(df, x, title):
     st.write(fig)
     
 # Scatter plot factory
-def create_scatter_plot(df, x, y, title):
-    fig = px.scatter(df, x=x, y=y, title=title, opacity=0.5, color='condition', template=my_template)
+def create_scatter_plot(df, x, y, title, color):
+    fig = px.scatter(df, x=x, y=y, title=title, opacity=0.5, color=color, template=my_template)
     fig.update_layout(title_text=title, title_x=0.35)
     st.write(fig)
 
@@ -94,11 +111,11 @@ def content_hist_condition():
 # Create scatter plot functions
 def content_scatter_price_odom(): 
     """Scatter plot of price vs. Odometer Reading"""
-    create_scatter_plot(df, 'odometer', 'price', 'Price vs. Odometer Reading')
+    create_scatter_plot(df, 'odometer', 'price', 'Price vs. Odometer Reading', color_category)
 
 def content_scatter_price_cylinders(): 
     """Scatter plot of price vs. cylinder count"""
-    create_scatter_plot(df, 'cylinders', 'price', 'Price vs. Cylinder Count')
+    create_scatter_plot(df, 'cylinders', 'price', 'Price vs. Cylinder Count', color_category)
 
 # Create expanders
 create_expander("Distribution of Vehicle Prices (Histogram)", 'expand_price', content_hist_price)
