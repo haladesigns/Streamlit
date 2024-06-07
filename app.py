@@ -1,19 +1,20 @@
 import pandas as pd
 import streamlit as st
-import random
+from streamlit_option_menu import option_menu
 import altair as alt
 import plotly.express as px
 import plotly.graph_objects as go
 import scipy as sp
 
 
-st.header('Car Ads')
+st.header('Car Sales Advertisements')
 st.write('Introductory text here')
 
 # Load the dataset
 file_path = './vehicles_us.csv'
 df = pd.read_csv(file_path)
 
+#--------------------EDA-----------------
 # Fill missing values
 df['model_year'] = df['model_year'].fillna(df['model_year'].median())
 df['cylinders'] = df['cylinders'].fillna(df['cylinders'].mode()[0])
@@ -31,6 +32,10 @@ st.sidebar.header("Settings")
 my_template = st.sidebar.radio("Choose a template", templates, key="template")
 text_auto= st.sidebar.checkbox("Enable text")
 
+#--------------------MENU-----------------
+selected = option_menu(None, ["Histograms", "Scatterplots", "Correlations", ], 
+                       icons=['bar-chart', 'graph-up', 'bar-chart', ], 
+                       menu_icon="cast", default_index=0, orientation="horizontal")
 
 #---------------------PLOTS-------------------
 expand_all = False
@@ -55,7 +60,7 @@ my_histprice_expander = st.expander("Expand Distribution of Vehicle Prices", exp
 with my_histprice_expander:
     st.write(fig_hist_price)
 
-# Histogram of Odometer Readings: To visualize the distribution of odometer readings across the dataset.
+# Histogram of Odometer Readings: Visualize the distribution of odometer readings across the dataset.
 fig_hist_odometer = px.histogram(df, x='odometer', nbins=30, color='condition', text_auto=text_auto, template=my_template)
 fig_hist_odometer.update_layout(title_text='Distribution of Odometer Readings', title_x=0.35)
 #st.write(fig_hist_odometer)
@@ -63,16 +68,16 @@ my_histodom_expander = st.expander("Expand Distribution of Odometer Readings", e
 with my_histodom_expander:
     st.write(fig_hist_odometer)
 
-# Histogram of Days Listed: To understand how long vehicles are typically listed for sale.
+# Histogram of Days Listed: Understand how long vehicles are typically listed for sale.
 fig_hist_days_listed = px.histogram(df, x='days_listed', nbins=30, title='Distribution of Days Listed', color='condition', 
                                     text_auto=text_auto, template=my_template,)
-fig_hist_days_listed.update_layout(title_text='Distribution of Vehicle Conditions', title_x=0.35)
+fig_hist_days_listed.update_layout(title_text='Distribution of Days Listed', title_x=0.35)
 #st.write(fig_hist_days_listed)
-my_histdayslisted_expander = st.expander("Expand Distribution of Vehicle Conditions", expanded=st.session_state.expand_all)
+my_histdayslisted_expander = st.expander("Expand Days Listed", expanded=st.session_state.expand_all)
 with my_histdayslisted_expander:
     st.write(fig_hist_days_listed)
 
-# Histogram of Vehicle Conditions: To understand the distribution of different vehicle conditions (categorical histogram).
+# Histogram of Vehicle Conditions: Understand the distribution of different vehicle conditions (categorical histogram).
 fig_hist_condition = px.histogram(df, x='condition', color='condition', text_auto=text_auto, template=my_template, )
 fig_hist_condition.update_layout(title_text='Distribution of Vehicle Conditions', title_x=0.35)
 #st.write(fig_hist_condition)
@@ -80,3 +85,19 @@ my_histcondition_expander = st.expander("Expand Distribution of Vehicle Conditio
 with my_histcondition_expander:
     st.write(fig_hist_condition)
 
+# Scatter plot of price vs. Odometer Reading
+fig_scatter = px.scatter(df, x='odometer', y='price', title='Price vs. Odometer Reading', opacity=0.5, color='condition', template=my_template,)
+fig_scatter.update_layout(title_text='Price vs. Odometer Reading', title_x=0.35)
+#st.write(fig_scatter)
+my_scatter_price_odom_expander = st.expander("Price vs. Odometer Reading" if not st.session_state.expand_all else "", expanded=st.session_state.expand_all)
+with my_scatter_price_odom_expander:
+    st.write(fig_scatter)
+    
+# Scatter plot of price vs. cylinder count
+fig_scatter_price_cylinders = px.scatter(df, x='cylinders', y='price', title='Price vs. Cylinder Count', opacity=0.5, color='condition')
+fig_scatter_price_cylinders.update_layout(title_text='Price vs. cylinder count', title_x=0.35)
+#st.write(fig_scatter_price_cylinders)
+my_scatter_price_cylinder_expander = st.expander("Price vs. Cylinder Count" if not st.session_state.expand_all else "", expanded=st.session_state.expand_all)
+with my_scatter_price_cylinder_expander:
+    st.write(fig_scatter_price_cylinders)
+    
