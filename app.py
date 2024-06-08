@@ -3,6 +3,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import plotly.express as px
 import plotly.graph_objects as go
+import numpy as np
 
 
 st.header('Car Sales Advertisements')
@@ -11,15 +12,28 @@ st.header('Car Sales Advertisements')
 file_path = './vehicles_us.csv'
 df = pd.read_csv(file_path)
 
-#--------------------EDA-----------------
-# Fill missing values
-df['model_year'] = df['model_year'].fillna(df['model_year'].median())
-df['cylinders'] = df['cylinders'].fillna(df['cylinders'].mode()[0])
+#--------------------EDA-----------------# Fill missing values
+# ---restore missing data based on related factors (accounting for the relationships within the data)---
+df['model_year'] = df['model_year'].fillna(df.groupby(['model'])['model_year'].transform('median'))
+
+# Fill missing 'odometer' values with median of 'model', 'model_year', 'condition', and 'days_listed' group
+df['odometer'] = df['odometer'].fillna(
+    df.groupby(['model', 'model_year', 'condition', 'days_listed'])['odometer'].transform('median'))
+
+# odometer fallback - fill remaining missing values with the overall median
 df['odometer'] = df['odometer'].fillna(df['odometer'].median())
+
+# Fill missing 'cylinders' values with mode of 'model', 'model_year', and 'fuel' group
+df['cylinders'] = df['cylinders'].fillna(df.groupby(['model', 'model_year', 'fuel'])['cylinders']
+                                         .transform(lambda x: x.mode()[0] if not x.mode().empty else np.nan))
+
+# cylindeers fallback - fill missing values with the overall mode
+df['cylinders'] = df['cylinders'].fillna( df['cylinders'].mode()[0])
+
 df['paint_color'] = df['paint_color'].fillna('unknown')
 
-# Drop the 'is_4wd' column
-df = df.drop(columns=['is_4wd'])
+# Fill missing values in 'is_4wd' with 0
+df['is_4wd'] = df['is_4wd'].fillna(0)
 
 #-------------------SIDEBAR------------------
 # Choose a template
@@ -50,7 +64,7 @@ st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 # Dropdown for selecting the color category
 color_category = st.sidebar.selectbox("Select category for scatter plots", [
     'price','model_year','model','condition','cylinders','fuel','odometer',
-    'transmission','type','paint_color','date_posted','days_listed'], 
+    'transmission','type','paint_color', 'is_4wd','date_posted','days_listed'], 
                                       key="color_category")
 
 st.sidebar.markdown("<hr>", unsafe_allow_html=True)
