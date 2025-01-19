@@ -1,5 +1,21 @@
 # Car Sales Advertisements
 
+## Table of Contents
+1. [Description](#description)
+2. [Live Demo](#live-demo)
+3. [Features](#features)
+4. [Technologies Used](#technologies-used)
+5. [Installation](#installation)
+   1. [Prerequisites](#prerequisites)
+   2. [Steps](#steps)
+6. [Usage](#usage)
+7. [Known Issues](#known-issues)
+   1. [Menu Navigation](#menu-navigation)
+   2. [Minimizing & Expanding the Expanders](#minimizing--expanding-the-expanders)
+8. [Contributing](#contributing)
+9. [License](#license)
+10. [Contact](#contact)
+
 ## Description
 This project is a tool to simulate random events and visualize various aspects of car sales advertisements. It uses Streamlit for the interactive web interface, along with several data visualization libraries to create informative charts and plots.
 
