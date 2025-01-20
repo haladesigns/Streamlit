@@ -21,6 +21,8 @@ This project is a tool to simulate random events and visualize various aspects o
 
 ## Live Demo
 You can access the live version of the app [here](https://car-ads-byzt.onrender.com).
+![Main](https://github.com/user-attachments/assets/a96d474b-0817-4546-8373-a2c1e64e8e45)
+
 
 ## Features
 - Visualize the distribution of vehicle prices, odometer readings, and days listed for sale.
